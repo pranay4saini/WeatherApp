@@ -1,5 +1,6 @@
 package com.pranay.weatherapp.network
 
+import com.pranay.weatherapp.model.Weather
 import retrofit2.http.GET
 import retrofit2.http.Query
 import javax.inject.Singleton
