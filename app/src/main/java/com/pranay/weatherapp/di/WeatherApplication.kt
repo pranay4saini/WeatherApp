@@ -1,4 +1,4 @@
-package com.pranay.weatherapp
+package com.pranay.weatherapp.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
