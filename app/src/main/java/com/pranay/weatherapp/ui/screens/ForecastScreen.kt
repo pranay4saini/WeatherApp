@@ -72,7 +72,7 @@ fun ForecastScreen(
     Log.d("WEATHER", currentWeatherObject.weather)
     val weatherData = gson.fromJson(currentWeatherObject.weather, Weather::class.java)
 
-    val gradientColors = listOf(Color(0xFF060620), MaterialTheme.colors.primary)
+    val gradientColors = listOf(Color(0xFFFEB054), MaterialTheme.colors.primary)
 
     Box(
         modifier = Modifier

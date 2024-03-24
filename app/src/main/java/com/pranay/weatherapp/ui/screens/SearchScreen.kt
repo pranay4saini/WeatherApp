@@ -68,7 +68,7 @@ fun SearchScreen(
     favouriteViewModel: FavouriteViewModel,
     mainViewModel: MainViewModel
 ) {
-    val gradientColors = listOf(Color(0xFF060620), MaterialTheme.colors.primary)
+    val gradientColors = listOf(Color(0xFFFEB054), MaterialTheme.colors.primary)
     var list = favouriteViewModel.favList.collectAsState().value
     Box(
         modifier = Modifier

@@ -46,22 +46,20 @@ import com.pranay.weatherapp.ui.viewmodel.ForecastViewModel
 import com.pranay.weatherapp.ui.viewmodel.MainViewModel
 import com.pranay.weatherapp.ui.widgets.NavBar
 import kotlinx.coroutines.launch
-import kotlin.math.log2
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherScreen(
+    navController: NavController,
     mainViewModel: MainViewModel,
     forecastViewModel: ForecastViewModel,
     context: Context,
-    city : String?,
-    navController: NavController,
+    city: String?,
 ) {
-    Log.d("City","$city")
+    Log.d("City", "$city")
     lateinit var latitude: MutableState<Double>
     lateinit var longitude: MutableState<Double>
 
-    if (city == "Default") {
+    if (city == "default") {
         latitude = remember {
             mutableStateOf(360.0)
         }
@@ -69,8 +67,8 @@ fun WeatherScreen(
             mutableStateOf(360.0)
         }
     } else {
-        val address = city?.let { getLatLon(context,it) }
-        if (address!= null) {
+        val address = city?.let { getLatLon(context, it) }
+        if (address != null) {
             latitude = remember {
                 mutableStateOf(address.latitude)
             }
@@ -84,11 +82,11 @@ fun WeatherScreen(
             longitude = remember {
                 mutableStateOf(360.0)
             }
-            Toast.makeText(context,"UNKNOWN LOCATION", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Unknown Location", Toast.LENGTH_LONG).show()
+
         }
     }
-
-    val gradientColors = listOf(Color(0xFF060620), colors.primary)
+    val gradientColors = listOf(Color(0xFFFEB054), colors.primary)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -182,13 +180,13 @@ fun HomeElements(
     )
 }
 
-fun getLatLon(context: Context, city: String) : Address? {
-    val geoCoder = Geocoder(context)
+fun getLatLon(context: Context, cityName: String): Address? {
+    val geocoder = Geocoder(context)
     return try {
-        val addresses = geoCoder.getFromLocationName(city,1)
+        val addresses = geocoder.getFromLocationName(cityName, 1)
         addresses!![0]
     } catch (e: Exception) {
+
         null
     }
 }
-

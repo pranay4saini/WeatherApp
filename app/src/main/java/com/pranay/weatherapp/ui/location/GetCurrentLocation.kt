@@ -82,16 +82,18 @@ import java.util.Locale
 @ExperimentalPermissionsApi
 @Composable
 fun GetCurrentLocation(
-    context: Context,
     mainViewModel: MainViewModel,
     forecastViewModel: ForecastViewModel,
-    latitude : MutableState<Double>,
-    longitude : MutableState<Double>
+    context: Context,
+    latitude: MutableState<Double>,
+    longitude: MutableState<Double>,
 ) {
     val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
-    var locationFromGps : Location? by remember { mutableStateOf(null) }
-    var openDialog : String by remember { mutableStateOf("")}
+
+
+    var locationFromGps: Location? by remember { mutableStateOf(null) }
+    var openDialog: String by remember { mutableStateOf("") }
 
     val locationPermissionsState = rememberMultiplePermissionsState(
         listOf(
@@ -103,7 +105,6 @@ fun GetCurrentLocation(
     val context = LocalContext.current
     val fusedLocationProviderClient =
         remember { LocationServices.getFusedLocationProviderClient(context) }
-
     val locationCallback = remember {
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -115,6 +116,7 @@ fun GetCurrentLocation(
             }
         }
     }
+
 
     val settingsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
@@ -214,6 +216,7 @@ fun GetCurrentLocation(
     )
 }
 
+
 @Composable
 fun ShowData(
     mainViewModel: MainViewModel,
@@ -240,7 +243,7 @@ fun ShowData(
             ) {
                 CircularProgressIndicator(color = Color(0xFFd68118))
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
+                androidx.compose.material3.Text(
                     "Loading weather information",
                     color = Color.White,
                     fontFamily = poppinsFamily
@@ -265,7 +268,6 @@ fun ShowData(
                     image = R.drawable.sunny
                 } else if (icon == "02d") {
                     image = R.drawable.sunny
-                    // TODO: change icon
                 } else if (icon == "03d" || icon == "04d" || icon == "04n" || icon == "03n" || icon == "02n") {
                     image = R.drawable.cloudy
                 } else if (icon == "09d" || icon == "10n" || icon == "09n") {
@@ -441,6 +443,28 @@ fun ShowData(
     }
 }
 
+suspend fun getLocationName(
+    context: Context,
+    latitude: MutableState<Double>,
+    longitude: MutableState<Double>
+): String {
+    // To specify that the geocoding operation should be performed on the IO dispatcher
+    return withContext(Dispatchers.IO) {
+        /*
+        withContext function will automatically suspend the current coroutine and resume it
+        when the operation is complete, allowing other operations to be performed in the meantime
+         */
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(latitude.value, longitude.value, 1)
+        var locationName = ""
+        if (addresses != null && addresses.size > 0) {
+            val address: Address = addresses[0]
+            locationName = address.adminArea
+        }
+        locationName
+    }
+}
+
 @OptIn(ExperimentalPermissionsApi::class)
 private fun fetchLocation(
     locationPermissionsState: MultiplePermissionsState,
@@ -472,27 +496,5 @@ private fun fetchLocation(
             openDialog("This app requires location permission")
             Log.d("LaunchedEffect", "else")
         }
-    }
-}
-
-suspend fun getLocationName(
-    context: Context,
-    latitude: MutableState<Double>,
-    longitude: MutableState<Double>
-): String {
-    // To specify that the geocoding operation should be performed on the IO dispatcher
-    return withContext(Dispatchers.IO) {
-        /*
-        withContext function will automatically suspend the current coroutine and resume it
-        when the operation is complete, allowing other operations to be performed in the meantime
-         */
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses = geocoder.getFromLocation(latitude.value, longitude.value, 1)
-        var locationName = ""
-        if (addresses != null && addresses.size > 0) {
-            val address: Address = addresses[0]
-            locationName = address.adminArea
-        }
-        locationName
     }
 }

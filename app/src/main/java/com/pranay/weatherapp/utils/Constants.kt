@@ -2,5 +2,5 @@ package com.pranay.weatherapp.utils
 
 object Constants {
     const val BASE_URL = "https://api.openweathermap.org/"
-    const val API_KEY = "ead78a50887ea11a88de37e653348bd3"
+    const val API_KEY = "f8b001a08778c78e5b8f87c14b36c269"
 }
