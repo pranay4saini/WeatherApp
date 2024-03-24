@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -45,18 +46,20 @@ import com.pranay.weatherapp.ui.viewmodel.ForecastViewModel
 import com.pranay.weatherapp.ui.viewmodel.MainViewModel
 import com.pranay.weatherapp.ui.widgets.NavBar
 import kotlinx.coroutines.launch
+import kotlin.math.log2
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherScreen(
     mainViewModel: MainViewModel,
     forecastViewModel: ForecastViewModel,
     context: Context,
     city : String?,
-    navController: NavController
+    navController: NavController,
 ) {
     Log.d("City","$city")
-    var latitude : MutableState<Double>
-    var longitude : MutableState<Double>
+    lateinit var latitude: MutableState<Double>
+    lateinit var longitude: MutableState<Double>
 
     if (city == "Default") {
         latitude = remember {
@@ -81,7 +84,6 @@ fun WeatherScreen(
             longitude = remember {
                 mutableStateOf(360.0)
             }
-
             Toast.makeText(context,"UNKNOWN LOCATION", Toast.LENGTH_LONG).show()
         }
     }
