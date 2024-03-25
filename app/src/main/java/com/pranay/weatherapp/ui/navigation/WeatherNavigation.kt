@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.pranay.weatherapp.ui.screens.ForecastScreen
 import com.pranay.weatherapp.ui.screens.SearchScreen
-import com.pranay.weatherapp.ui.screens.SettingScreen
 import com.pranay.weatherapp.ui.screens.SplashScreen
 import com.pranay.weatherapp.ui.screens.WeatherScreen
 import com.pranay.weatherapp.ui.viewmodel.FavouriteViewModel
@@ -48,9 +47,6 @@ fun WeatherNavigation(context: Context) {
         }
         composable(BottomNavItem.Search.route) {
             SearchScreen(navController = navController, context, favouriteViewModel, mainViewModel)
-        }
-        composable(BottomNavItem.Settings.route) {
-            SettingScreen(navController = navController)
         }
     }
 }

@@ -42,10 +42,6 @@ sealed class BottomNavItem(
         icon = Icons.Outlined.Analytics
     )
 
-    object Settings : BottomNavItem(
-        route = Screen.Settings.route,
-        icon = Icons.Outlined.Settings
-    )
 }
 
 @Composable
@@ -54,7 +50,6 @@ fun NavBar(navController: NavController) {
         BottomNavItem.Home,
         BottomNavItem.Search,
         BottomNavItem.Forecast,
-        BottomNavItem.Settings
     )
     val defaultCity = "default"
     BottomNavigation(
@@ -77,8 +72,7 @@ fun NavBar(navController: NavController) {
                         color = Color(0xFFd68118)
                     } else if (item == BottomNavItem.Home) {
                         if (currentRoute != BottomNavItem.Search.route &&
-                            currentRoute != BottomNavItem.Forecast.route &&
-                            currentRoute != BottomNavItem.Settings.route
+                            currentRoute != BottomNavItem.Forecast.route
                         ) {
                             color = Color(0xFFd68118)
                         }
@@ -89,9 +83,7 @@ fun NavBar(navController: NavController) {
                 selectedContentColor = Color.Transparent,
                 onClick = {
                     if (item != BottomNavItem.Home) {
-                        if (item == BottomNavItem.Settings) {
-                            /*TODO(/*Not yet Implemented*/)*/
-                        } else {
+
                             navController.navigate(item.route) {
                                 // Pop up to the start destination of the graph to
                                 // avoid building up a large stack of destinations
@@ -106,7 +98,7 @@ fun NavBar(navController: NavController) {
                                 // Restore state when re-selecting a previously selected item
                                 restoreState = true
                             }
-                        }
+
                     } else {
                         navController.navigate(item.route + "/$defaultCity") {
                             // Pop up to the start destination of the graph to
